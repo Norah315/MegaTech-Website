@@ -4,8 +4,10 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Badge } from '../components/ui/badge';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '../components/ui/carousel';
 import { mockCourses, mockBlogPosts } from '../data/mockData';
-import { ArrowRight, Award, Users, BookOpen, TrendingUp, Star, CheckCircle } from 'lucide-react';
+import { ArrowRight, Award, Users, BookOpen, TrendingUp, Star, CheckCircle, ChevronDown } from 'lucide-react';
 import Autoplay from 'embla-carousel-autoplay';
+import { motion, useScroll, useTransform, useInView, useMotionValue, useSpring } from 'motion/react';
+import { useEffect, useRef, useState } from 'react';
 
 export default function Home() {
   const featuredCourses = mockCourses.filter(c => c.isFeatured).slice(0, 3);
@@ -24,29 +26,124 @@ export default function Home() {
   return (
     <div>
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-blue-600 to-blue-800 text-white py-20 md:py-32">
-        <div className="container mx-auto px-4">
+      <section className="relative bg-gradient-to-br from-blue-600 to-blue-800 text-white py-20 md:py-32 overflow-hidden">
+        {/* Animated Background Elements */}
+        <motion.div
+          className="absolute inset-0 opacity-10"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 0.1 }}
+          transition={{ duration: 2 }}
+        >
+          <div className="absolute top-20 left-10 w-32 h-32 bg-white rounded-full blur-xl"></div>
+          <div className="absolute top-40 right-20 w-24 h-24 bg-blue-300 rounded-full blur-lg"></div>
+          <div className="absolute bottom-20 left-1/4 w-40 h-40 bg-blue-400 rounded-full blur-2xl"></div>
+        </motion.div>
+
+        <div className="container mx-auto px-4 relative z-10">
           <div className="max-w-3xl">
-            <Badge className="mb-4 bg-white/20 text-white border-white/30">
-              Empowering Tech Professionals Since 2023
-            </Badge>
-            <h1 className="text-4xl md:text-6xl font-bold mb-6">
-              Transform Your Career with World-Class Tech Education
-            </h1>
-            <p className="text-xl mb-8 text-blue-50">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+            >
+              <Badge className="mb-4 bg-white/20 text-white border-white/30 hover:bg-white/30 transition-colors">
+                Empowering Tech Professionals Since 2023
+              </Badge>
+            </motion.div>
+
+            <motion.h1
+              className="text-4xl md:text-6xl font-bold mb-6 leading-tight"
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+            >
+              Transform Your Career with{' '}
+              <motion.span
+                className="text-yellow-300"
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.6, delay: 0.8 }}
+              >
+                World-Class
+              </motion.span>{' '}
+              Tech Education
+            </motion.h1>
+
+            <motion.p
+              className="text-xl mb-8 text-blue-50 max-w-2xl"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.6 }}
+            >
               Join thousands of students mastering the skills that matter. Learn from industry experts and build your future in technology.
-            </p>
-            <div className="flex flex-wrap gap-4">
-              <Button size="lg" variant="secondary" asChild>
-                <Link to="/courses">
-                  Explore Courses
-                  <ArrowRight className="ml-2 size-5" />
-                </Link>
-              </Button>
-              <Button size="lg" variant="outline" className="bg-white/10 border-white/30 text-white hover:bg-white/20" asChild>
-                <Link to="/register">Register Now</Link>
-              </Button>
-            </div>
+            </motion.p>
+
+            <motion.div
+              className="flex flex-wrap gap-4"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.8 }}
+            >
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                transition={{ type: "spring", stiffness: 400, damping: 17 }}
+              >
+                <Button size="lg" variant="secondary" asChild>
+                  <Link to="/courses" className="flex items-center">
+                    Explore Courses
+                    <motion.div
+                      animate={{ x: [0, 5, 0] }}
+                      transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+                    >
+                      <ArrowRight className="ml-2 size-5" />
+                    </motion.div>
+                  </Link>
+                </Button>
+              </motion.div>
+
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                transition={{ type: "spring", stiffness: 400, damping: 17 }}
+              >
+                <Button size="lg" variant="outline" className="bg-white/10 border-white/30 text-white hover:bg-white/20 transition-all duration-300" asChild>
+                  <Link to="/register">Register Now</Link>
+                </Button>
+              </motion.div>
+            </motion.div>
+
+            {/* Floating Elements */}
+            <motion.div
+              className="absolute top-20 right-10 text-6xl opacity-20"
+              animate={{
+                y: [0, -20, 0],
+                rotate: [0, 5, -5, 0]
+              }}
+              transition={{
+                duration: 4,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+            >
+              💻
+            </motion.div>
+
+            <motion.div
+              className="absolute bottom-32 left-10 text-5xl opacity-15"
+              animate={{
+                y: [0, 15, 0],
+                x: [0, 10, 0]
+              }}
+              transition={{
+                duration: 3,
+                repeat: Infinity,
+                ease: "easeInOut",
+                delay: 1
+              }}
+            >
+              🚀
+            </motion.div>
           </div>
         </div>
       </section>
@@ -207,27 +304,27 @@ export default function Home() {
       <section className="py-16 bg-blue-50">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Student Success Stories</h2>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">Success Stories</h2>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {[
               {
-                name: 'Michael Okafor',
-                role: 'Full Stack Developer at TechCorp',
-                image: 'https://images.unsplash.com/photo-1684337399050-0412ebed8005?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400&h=400',
+                name: 'Happiness Owele',
+                role: 'Data analyst at MegaTech',
+                image: '/src/assets/happiness.jpeg',
                 quote: 'MEGA-TECH transformed my career. The instructors are amazing and the curriculum is top-notch!'
               },
               {
-                name: 'Grace Adeyemi',
-                role: 'Data Scientist at DataHub',
-                image: 'https://images.unsplash.com/photo-1746104718762-fb421954cc1b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400&h=400',
+                name: 'Lawal Esther',
+                role: 'Secretary at MegaTech',
+                image: '/src/assets/esther.jpeg',
                 quote: 'Best investment I ever made. I landed my dream job just 2 months after graduation!'
               },
               {
-                name: 'Chidi Nwankwo',
-                role: 'Mobile Developer at AppWorks',
-                image: 'https://images.unsplash.com/photo-1764169689207-e23fb66e1fcf?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400&h=400',
+                name: 'Offiong Nora',
+                role: 'Frontend dev at MegaTech',
+                image: '/src/assets/nora.jpeg',
                 quote: 'The hands-on projects gave me the confidence to build real applications. Highly recommended!'
               }
             ].map((story, index) => (
