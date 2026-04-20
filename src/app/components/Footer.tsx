@@ -67,9 +67,8 @@ export function Footer() {
               <li className="flex items-center gap-2">
                 <Phone className="size-5 shrink-0" />
                 <div className="flex flex-col">
-                  <span>08135118427 (General)</span>
-                  <span>08134305251 (Business)</span>
-                  <span>08169966823 (MD)</span>
+                  <span>09035437674 (Mgnt Office)</span>
+                  <span>08133382761 (Company's Line)</span>
                 </div>
               </li>
               <li className="flex items-center gap-2">
