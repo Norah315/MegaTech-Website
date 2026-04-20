@@ -67,9 +67,8 @@ export default function Contact() {
                     <div>
                       <h3 className="font-semibold mb-1">Phone Numbers</h3>
                       <p className="text-sm text-gray-600">
-                        08135118427 (General Office)<br />
-                        08134305251 (Business Development)<br />
-                        08169966823 (Managing Director)
+                        09035437674 (Management Office)<br />
+                        08133382761 (Company's Line)<br />
                       </p>
                     </div>
                   </div>
