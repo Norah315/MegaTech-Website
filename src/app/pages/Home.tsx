@@ -307,7 +307,7 @@ export default function Home() {
             <h2 className="text-3xl md:text-4xl font-bold mb-4">Success Stories</h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
             {[
               {
                 name: 'Happiness Owele',
